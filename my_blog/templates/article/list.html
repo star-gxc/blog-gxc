@@ -17,11 +17,11 @@
 {% block content %}
 
 <!-- 定义放置文章标题的div容器 -->
-<div class="container">
+<div class="container" >
     <!-- 22，修改，面包屑的href增加search参数 -->
     <!--最新最热排序-->
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
+        <ol class="breadcrumb" style="background :#eeffd3;">
             <li class="breadcrumb-item">
                 <!--28章，增加了标签栏目，要实现联合查询，则应该在href后加上相应字段-->
                 <!--最新和最热以及页码都类似的加了，其他没有，如果有需要后期可加上-->
@@ -134,7 +134,11 @@
                         {{ article.comments.count }}&nbsp;&nbsp;&nbsp;
                     </span>
                     <span>
-                        <i class="fas fa-clock" style="color: pink;"></i>
+                        <i class="fas fa-heart" style="color: pink;"></i>
+                        {{ article.likes }}&nbsp;&nbsp;&nbsp;
+                    </span>
+                    <span>
+                        <i class="fas fa-clock" style="color: #ff921e;"></i>
                         {{ article.created|date:'Y-m-d' }}
                     </span>
                 </p>
@@ -152,18 +156,18 @@
                 <!-- 如果不是第一页，则显示上翻按钮 -->
                 {% if articles.has_previous %}
                     <!--21，修改--><!-- 22，修改，页码href增加search参数 -->
-                    <a href="?page=1&order={{ order }}&search={{ search }}&column={{ column }}&tag={{ tag }}" class="btn btn-success">&laquo; 1</a>
+                    <a href="?page=1&order={{ order }}&search={{ search }}&column={{ column }}&tag={{ tag }}" class="btn btn-success" style="background-color: #54D99F; color: black;">&laquo; 1</a>
                     <span>...</span>
                     <!--21，22，修改-->
                     <a href="?page={{ articles.previous_page_number }}&order={{ order }}&search={{ search }}&column={{ column }}&tag={{ tag }}"
-                       class="btn btn-secondary"
+                       class="btn btn-secondary" style="background-color: #ACE08C; color: black;"
                     >
                         {{ articles.previous_page_number }}
                     </a>
                 {% endif %}
 
                 <!-- 当前页面 -->
-                <span class="current btn btn-danger btn-lg">
+                <span class="current btn btn-danger btn-lg"  style="background-color: #E8E284; color: black;">
                     {{ articles.number }}
                 </span>
 
@@ -171,14 +175,14 @@
                 {% if articles.has_next %}
                     <!--21，22，修改-->
                     <a href="?page={{ articles.next_page_number }}&order={{ order }}&search={{ search }}&column={{ column }}&tag={{ tag }}"
-                       class="btn btn-secondary"
+                       class="btn btn-secondary"  style="background-color: #ACE08C; color: black;"
                     >
                         {{ articles.next_page_number }}
                     </a>
                     <span>...</span>
                     <!--21，22，修改-->
                     <a href="?page={{ articles.paginator.num_pages }}&order={{ order }}&search={{ search }}&column={{ column }}&tag={{ tag }}"
-                       class="btn btn-success"
+                       class="btn btn-success" style="background-color: #F2B652; color: black;"
                     >
                         {{ articles.paginator.num_pages }} &raquo;
                     </a>

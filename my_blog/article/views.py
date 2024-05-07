@@ -3,6 +3,8 @@ import markdown
 
 # 导入 HttpResponse 模块
 from django.http import HttpResponse
+#引入类视图
+from django.views.generic.base import View
 
 # 引入redirect重定向模块
 from django.shortcuts import render, redirect
@@ -260,5 +262,13 @@ def article_update(request, id):
         # 将响应返回到模板中
         return render(request, 'article/update.html', context)
 
+
+# 点赞数 +1
+class IncreaseLikesView(View):
+    def post(self, request, *args, **kwargs):
+        article = ArticlePost.objects.get(id=kwargs.get('id'))
+        article.likes += 1
+        article.save()
+        return HttpResponse('success')
 #调试
 

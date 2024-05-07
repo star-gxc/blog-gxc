@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
+#确定主键
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 import os
 
@@ -23,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'y76aoafez$2!45yrm-0f!k2$!*ji@s+h+u2%bt$6bkrd2=cz#s'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
 ALLOWED_HOSTS = ['*']
@@ -47,6 +49,9 @@ INSTALLED_APPS = [
     'comment',  #评论功能
     'taggit',  #标签的轮子
     'ckeditor',#富文本编辑器
+    'mptt',#32多级评论
+    'notifications',#33,通知1
+    'notice',#33，通知2
 ]
 
 MIDDLEWARE = [

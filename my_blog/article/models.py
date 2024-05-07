@@ -48,6 +48,9 @@ class ArticlePost(models.Model):
     # 文章标题图
     avatar = models.ImageField(upload_to='article/%Y%m%d/', blank=True)
 
+    # 新增点赞数统计
+    likes = models.PositiveIntegerField(default=0)
+
     # 保存时处理图片
     def save(self, *args, **kwargs):
         # 调用原有的 save() 的功能
