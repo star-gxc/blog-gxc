@@ -80,13 +80,19 @@
                 {% if article.column %}
                     <button type="button"
                         class="btn btn-sm mb-2
-                            {% if article.column.title == '文学' %}
-                                btn-success
-                            {% elif article.column.title == '娱乐' %}
-                                btn-danger
-                            {% elif article.column.title == '其他' %}
-                                btn-warning
-                            {% endif %}
+                              {% if article.column.title == '文学' %}
+                                  btn-success
+                              {% elif article.column.title == '新闻' %}
+                                  btn-danger
+                              {% elif article.column.title == '科普' %}
+                                  btn-primary
+                              {% elif article.column.title == '娱乐' %}
+                                  btn-warning
+                              {% elif article.column.title == '其他' %}
+                                 btn-warning
+                              {% elif article.column.title == 'Anything you want' %}
+                                  btn-dark
+                              {% endif %}
                         "
                     >
                         {{ article.column }}
@@ -98,7 +104,8 @@
                     {% for tag in article.tags.all %}
                         <!--使其带有tag参数返回到View中-->
                         <a href="{% url 'article:article_list' %}?tag={{ tag }}"
-                           class="badge badge-secondary"
+                           class="badge badge-secondary  "
+                            style="background: #ff8726;"
                         >
                             {{ tag }}
                         </a>

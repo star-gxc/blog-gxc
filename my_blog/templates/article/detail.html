@@ -7,6 +7,7 @@
     文章详情
 {% endblock title %}
 
+
 <!-- 写入 base.html 中定义的 content -->
 {% block content %}
 
@@ -21,6 +22,8 @@
         <!-- 将原有内容嵌套进新的div中 -->
         <div class="col-9">
             <h1 class="mt-4 mb-4" style="text-align: center;">{{ article.title }}</h1>
+
+
             <div class="col-12 alert alert-success">
                 <div>
                     作者：{{ article.author }}
@@ -237,7 +240,7 @@
         <!-- 目录 -->
         <div ... id="sidebar" class="sidebar">
             <div class="sidebar__inner">
-                <h4><strong>目录</strong></h4>
+                <h4 >文章目录</h4>
                 <hr>
                 <div>
                     {{ toc|safe }}

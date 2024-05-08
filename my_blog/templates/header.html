@@ -2,6 +2,8 @@
 {% load notifications_tags %}
 {% notifications_unread as unread_count %}
 {% load static %}
+
+
 <link rel="stylesheet" type="text/css" href="{% static 'css/custom.css' %}">
 
 
@@ -12,25 +14,134 @@
     <!-- 导航栏商标 -->
     <a class="navbar-brand" href="#" style="color: black;">博客</a>
 
+   {% if user.is_authenticated %}
+      <!-- 导航入口 -->
+    <div>
+      <ul class="navbar-nav">
 
-      <!-- Example single danger button -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: black;">
+                <!-- 新增代码，小红点 -->
+                {% if unread_count %}
+                    <svg viewBox="0 0 8 8"
+                         width="8px"
+                         height="8px">
+                        <circle cx="4"
+                                cy="4"
+                                r="4"
+                                fill="#ff6b6b"
+                                ></circle>
+                    </svg>
+                {% endif %}
+                {{ user.username }}
+            </a>
+       </li>
+
+          <!-- 写文章入口 -->
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'article:article_create' %}" style="color: black;"onmouseover="this.style.color='red';"
+               onmouseout="this.style.color='black';">
+                写文章
+            </a>
+        </li>
+        <!-- 条目 -->
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'article:article_list' %}" style="color: black;"onmouseover="this.style.color='red';"
+               onmouseout="this.style.color='black';">
+                文章
+            </a>
+          <!--这里href是跳转地址的函数，这里可以直接写地址，也可如本代码用******，这样相对前者，即使地址改了也可正确跳转-->
+        </li>
 
 
 
+        <!-- 新增代码，通知计数 -->
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'notice:list' %}"
+               style="color: black;"
+               onmouseover="this.style.color='red';"
+               onmouseout="this.style.color='black';">
+                通知
+                {% if unread_count %}
+                <span class="badge badge-danger">{{ unread_count }}</span>
+                {% endif %}
+            </a>
+        </li>
 
-    <!-- 导航入口 -->
+        <li class="nav-item">
+            <a class="nav-link" href='{% url "userprofile:edit" user.id %}' style="color: black;" onmouseover="this.style.color='red';"
+               onmouseout="this.style.color='black';">
+                个人信息
+            </a>
+          <!--这里href是跳转地址的函数，这里可以直接写地址，也可如本代码用******，这样相对前者，即使地址改了也可正确跳转-->
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" onclick="user_delete()" style="color: black;" onmouseover="this.style.color='red';"
+               onmouseout="this.style.color='black';">
+                删除用户
+            </a>
+          <!--这里href是跳转地址的函数，这里可以直接写地址，也可如本代码用******，这样相对前者，即使地址改了也可正确跳转-->
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href='{% url "userprofile:logout" %}' style="color: black;" onmouseover="this.style.color='red';"
+               onmouseout="this.style.color='black';">
+                退出登录
+            </a>
+          <!--这里href是跳转地址的函数，这里可以直接写地址，也可如本代码用******，这样相对前者，即使地址改了也可正确跳转-->
+        </li>
+
+
+
+                  <!-- 新增 -->
+        {% if user.is_authenticated %}
+        <form
+            style="display:none;"
+            id="user_delete"
+            action="{% url 'userprofile:delete' user.id %}"
+            method="POST"
+        >
+        {% csrf_token %}
+            <button type="submit">发送</button>
+        </form>
+            <script>
+                function user_delete() {
+                    // 调用layer弹窗组件
+                    layer.open({
+                        title: "确认删除",
+                        content: "确认删除用户资料吗？",
+                        yes: function(index, layero) {
+                            $('form#user_delete button').click();
+                            layer.close(index);
+                        },
+                    })
+                }
+            </script>
+        {% endif %}
+
+
+      </ul>
+    </div>
+   {% else %}
+      <!-- 导航入口 -->
     <div>
       <ul class="navbar-nav">
           <!-- 写文章入口 -->
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'article:article_create' %}" style="color: black;">写文章</a>
+            <a class="nav-link" href="{% url 'article:article_create' %}" style="color: black;" onmouseover="this.style.color='red';"
+               onmouseout="this.style.color='black';">
+                写文章
+            </a>
         </li>
         <!-- 条目 -->
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'article:article_list' %}" style="color: black;">文章</a>
+            <a class="nav-link" href="{% url 'article:article_list' %}" style="color: black;" onmouseover="this.style.color='red';"
+               onmouseout="this.style.color='black';">
+                文章
+            </a>
           <!--这里href是跳转地址的函数，这里可以直接写地址，也可如本代码用******，这样相对前者，即使地址改了也可正确跳转-->
         </li>
 
+                <!-- 新增 -->
         <!-- Django的 if 模板语句 -->
         {% if user.is_authenticated %}
             <!-- 如果用户已经登录，则显示用户名下拉框 -->
@@ -94,18 +205,25 @@
 
             </li>
 
+
         <!-- 如果用户未登录，则显示 “登录” -->
         {% else %}
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'userprofile:login' %}">登录</a>
+                <a class="nav-link" href="{% url 'userprofile:login' %}" style="color: black;" onmouseover="this.style.color='red';"
+               onmouseout="this.style.color='black';">
+                    登录
+                </a>
             </li>
         <!-- if 语句在这里结束 -->
         {% endif %}
 
 
 
+
       </ul>
     </div>
+   {% endif %}
+
   </div>
 
 </nav>
